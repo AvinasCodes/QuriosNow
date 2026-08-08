@@ -29,8 +29,9 @@ export function HeroSection() {
         className="relative z-10"
       >
         {/* System label */}
-        <div className="font-mono text-xs text-crt-muted mb-6 tracking-[0.3em] uppercase">
-          ┌─ TERMINAL v1.0 ─ DATA EXPLORER ─┐
+        <div className="font-mono text-[10px] sm:text-xs text-crt-muted mb-6 tracking-widest sm:tracking-[0.3em] uppercase whitespace-nowrap overflow-hidden text-clip w-full flex justify-center">
+          <span className="sm:hidden">TERMINAL v1.0</span>
+          <span className="hidden sm:inline">┌─ TERMINAL v1.0 ─ DATA EXPLORER ─┐</span>
         </div>
 
         {/* Logo */}
@@ -66,8 +67,11 @@ export function HeroSection() {
         )}
 
         {/* Decorative bottom border */}
-        <div className="font-mono text-xs text-crt-muted mt-8 tracking-[0.3em] uppercase">
+        <div className="font-mono text-[10px] sm:text-xs text-crt-muted mt-8 tracking-widest sm:tracking-[0.3em] uppercase hidden sm:block">
           └────────────────────────────────────┘
+        </div>
+        <div className="font-mono text-[10px] text-crt-muted mt-8 tracking-widest uppercase sm:hidden">
+          └──────────────────────┘
         </div>
       </motion.div>
     </section>
