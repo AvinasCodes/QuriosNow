@@ -2,9 +2,11 @@
 
 > **Talk to Your Data. Instantly.**
 
-A production-quality, frontend-only web application for uploading CSV and Excel files and instantly converting them into a fully interactive, editable table. Features a **Modern Minimalist / Apple-inspired** aesthetic with clean typography and subtle micro-animations.
+A production-quality, frontend-only web application for exploring data and chatting with your documents. QuriosNow features two powerful, locally-run workspaces: an **Interactive Data Table** for spreadsheets (CSV/Excel) and an **AI Document Terminal (RAG)** for text documents (PDF/DOCX/PPTX/TXT). 
 
-**No backend. Everything runs in your browser.**
+Everything is wrapped in a premium **Retro Terminal / CRT Aesthetic** with glowing text, scanlines, and immersive micro-animations.
+
+**No backend. No API keys. Everything runs locally in your browser.**
 
 ---
 
@@ -30,64 +32,44 @@ npm run dev
 | **React 19** | UI framework |
 | **TypeScript** | Type safety |
 | **Vite** | Build tool |
-| **TailwindCSS v4** | Utility CSS |
-| **AG Grid Community** | Data table |
+| **TailwindCSS v4** | Utility CSS + Custom CRT styles |
+| **HuggingFace Transformers.js** | Local AI Embeddings (Web Worker) |
+| **IndexedDB** | Fast local vector store |
+| **AG Grid Community** | High-performance data table |
 | **Zustand** | State management |
-| **PapaParse** | CSV parsing |
-| **SheetJS (xlsx)** | Excel parsing |
-| **Framer Motion** | Animations |
-| **React Icons** | Icon library |
+| **pdfjs-dist / mammoth / jszip** | Document parsing |
+| **Framer Motion** | Fluid animations |
+| **Google AdSense** | Integrated monetization |
 
 ---
 
-## ✨ Features
+## ✨ Core Features
 
-### Upload
-- Drag & drop CSV / XLSX / XLS files
-- File validation (type, size, emptiness)
-- 100MB max file size
-- Smooth loading sequences
+### 1. Smart File Routing
+- Drag & drop any file. The system automatically routes:
+  - **Spreadsheets** (`.csv`, `.xlsx`, `.xls`) → Table Workspace
+  - **Documents** (`.pdf`, `.docx`, `.pptx`, `.txt`, `.md`) → RAG Workspace
 
-### Table (AG Grid)
-- Inline cell editing (double-click)
-- Sorting, filtering, column resize
-- Column moving, hiding, pinning
-- Pagination with configurable page sizes
-- Virtual scrolling for large datasets
-- Quick filter search
-- Row selection (single + multi)
-- Add / Delete / Duplicate rows
-- Undo / Redo with keyboard shortcuts
-- Sticky header
-- Auto column sizing
+### 2. Document Intelligence (RAG Workspace)
+- **100% Local AI**: Uses Transformers.js to generate embeddings directly in your browser. No data leaves your machine.
+- **Smart Extraction**: Instead of dumping raw chunks, the LLM service extracts and scores specific sentences based on your query keywords and question type (who/when/where).
+- **Hybrid Search**: Combines Cosine Vector Similarity with a keyword-based fallback to guarantee relevant results even on weaker devices.
+- **Dynamic Imports**: Heavy parsing libraries (PDF, DOCX, PPTX) are only loaded when needed, keeping the initial bundle size incredibly small.
+- **Source Citations**: AI responses include exact document citations and similarity scores.
 
-### Auto-Detection
-- String, Integer, Float, Boolean
-- Date, Email, Phone, URL
-- Color-coded by type in the table
+### 3. Data Table (Table Workspace)
+- **AG Grid Integration**: Inline cell editing, sorting, filtering, and column resizing.
+- **Auto-Detection**: Automatically detects types (String, Integer, Float, Date, Email, etc.) and color-codes them.
+- **Undo/Redo**: Full history state with keyboard shortcuts.
+- **Direct Save**: Overwrite your original local file directly using the File System Access API.
 
-### Direct File Save & Export
-- **Direct Save**: Overwrite the original file on your hard drive directly using the **File System Access API** (Chrome/Edge).
-- **Recent Files**: Persisted via IndexedDB and `localStorage`, saving both file metadata and edited content across sessions.
-- **Export**: Download copies as CSV (via PapaParse), Excel (via SheetJS), or JSON.
+### 4. Monetization & Compliance Ready
+- **Google AdSense** integration ready out of the box.
+- Built-in **Privacy Policy**, **Terms of Service**, and **About Us** pages to ensure fast AdSense approval.
 
-### Info Panel
-- Total rows / columns
-- File name / size
-- Detected types breakdown
-- Missing values count
-- Duplicate rows count
-- Column list with types
-
-### UI / UX
-- **Apple/Notion-inspired Light Theme** with crisp whites, slate text, and subtle shadows.
-- Fully **Responsive Design** across Desktop, Tablet, and Mobile devices.
-- Improved **Fullscreen/Maximize Mode** with a custom stats header bar.
-- Dedicated **In-App Documentation** page.
-- Elegant typing animations and polished hover states.
-- Global Notification popups for success/error feedback.
-- Status bar with live stats.
-- Comprehensive keyboard shortcuts.
+### 5. Premium UI / UX
+- **CRT Monitor Aesthetic**: Scanlines, text glow, phosphor trails, and terminal boot sequences.
+- **Responsive Layouts**: Mobile-friendly tabbed interfaces and fluid grid systems.
 
 ---
 
@@ -96,91 +78,45 @@ npm run dev
 ```
 src/
 ├── components/
-│   ├── landing/         # Landing page sections
-│   │   ├── HeroSection.tsx
-│   │   ├── UploadZone.tsx
-│   │   ├── RecentFiles.tsx
-│   │   └── FeaturesSection.tsx
-│   ├── layout/          # App shell
-│   │   ├── Layout.tsx
-│   │   └── Navbar.tsx
-│   ├── table/           # Table view components
-│   │   ├── DataTable.tsx
-│   │   ├── Toolbar.tsx
-│   │   ├── InfoPanel.tsx
-│   │   └── ExportMenu.tsx
-│   └── ui/              # Reusable primitives
-│       ├── RetroWindow.tsx
-│       ├── RetroButton.tsx
-│       ├── GlowText.tsx
-│       ├── ScanlineOverlay.tsx
-│       ├── RetroNotification.tsx
-│       ├── BootSequence.tsx
-│       ├── RetroProgressBar.tsx
-│       └── ASCIIEmptyState.tsx
-├── constants/
-│   └── index.ts
-├── hooks/
-│   ├── useFileUpload.ts
-│   └── useKeyboardShortcuts.ts
-├── lib/
-│   └── utils.ts
-├── pages/
-│   ├── LandingPage.tsx
-│   ├── TablePage.tsx
-│   └── DocsPage.tsx       # In-app documentation
+│   ├── landing/         # Landing page & file upload
+│   ├── layout/          # App shell (Navbar, CRT Overlays)
+│   ├── rag/             # Document Intelligence workspace
+│   │   ├── ChatPanel.tsx
+│   │   ├── DocumentViewer.tsx
+│   │   └── ProcessingProgress.tsx
+│   ├── table/           # Data Table workspace
+│   └── ui/              # Reusable primitives (Buttons, Notifications)
+├── pages/               # Main views (Landing, Table, Rag, Privacy, etc.)
 ├── services/
-│   └── parser.ts
-├── store/
-│   ├── useAppStore.ts
-│   └── useDataStore.ts
-├── types/
-│   └── index.ts
-├── utils/
-│   ├── dataAnalysis.ts
-│   ├── exporters.ts
-│   ├── db.ts              # IndexedDB persistence
-│   ├── typeDetector.ts
-│   └── validators.ts
+│   └── rag/             # Local AI services
+│       ├── ChunkingService.ts
+│       ├── EmbeddingService.ts
+│       ├── LLMService.ts
+│       ├── RetrievalService.ts
+│       └── TextExtractor.ts
+├── store/               # Zustand state stores
+├── workers/             # Web Workers (embeddings)
 ├── App.tsx
-├── main.tsx
-├── index.css
-└── vite-env.d.ts
+└── main.tsx
 ```
-
----
-
-## ⌨️ Keyboard Shortcuts
-
-| Shortcut | Action |
-|----------|--------|
-| `Ctrl + S` | Save directly to original file |
-| `Ctrl + Z` | Undo |
-| `Ctrl + Y` | Redo |
-| `Ctrl + Shift + Z` | Redo (alternative) |
-| `Delete` | Delete selected rows |
-| `Double-click` | Edit cell |
-| `Enter` | Confirm cell edit |
-| `Escape` | Cancel cell edit |
 
 ---
 
 ## 🎨 Design Aesthetic
 
-**Modern Minimalist / Premium Light Theme**
+**Premium Retro Terminal / Cyberpunk**
 
-Inspired by Apple interfaces and Notion, focusing on clarity, whitespace, and subtle micro-interactions.
+Inspired by classic CRT monitors, command-line interfaces, and cyberpunk aesthetics, focusing on immersive visual feedback and nostalgic interactions.
 
 ### Color Palette
 
-| Color | Hex | Usage |
-|-------|-----|-------|
-| Background | `#F4F4F0` | Warm Off-White (Landing) |
-| Surface/Card| `#FFFFFF` | Main content areas |
-| Text | `#000000` | Primary Typography |
-| Border | `#000000` | Crisp demarcations |
-| Primary Accent | `#FF90E8` | Buttons, highlights |
-| Secondary | `#FFC900` | Warnings |
+| Color | CSS Variable | Usage |
+|-------|--------------|-------|
+| Background | `--crt-bg` | Deep green/black (#050806) |
+| Primary Glow | `--crt-green` | Main text, accents (#39FF14) |
+| Secondary | `--crt-amber` | Highlights, user messages (#FFB000) |
+| Muted | `--crt-muted` | Secondary text, borders (#2A4A32) |
+| CRT Glow | `--crt-glow` | Text shadow effect for realism |
 
 ---
 

@@ -10,12 +10,18 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@huggingface/transformers": "^4.2.0",
+    "@mlc-ai/web-llm": "^0.2.84",
     "ag-grid-community": "^32.3.3",
     "ag-grid-react": "^32.3.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^11.18.0",
+    "idb": "^8.0.3",
+    "jszip": "^3.10.1",
+    "mammoth": "^1.12.0",
     "papaparse": "^5.5.2",
+    "pdfjs-dist": "^6.2.108",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.4.0",
