@@ -39,7 +39,12 @@ export function LandingPage() {
         <FeaturesSection />
 
         {/* Footer */}
-        <footer className="border-t border-[var(--crt-border)] py-6 text-center">
+        <footer className="border-t border-[var(--crt-border)] py-8 text-center space-y-4">
+          <div className="flex justify-center gap-6 font-mono text-xs text-crt-amber/80">
+            <button onClick={() => setView('about')} className="hover:text-crt-green transition-colors">About Us</button>
+            <button onClick={() => setView('privacy')} className="hover:text-crt-green transition-colors">Privacy Policy</button>
+            <button onClick={() => setView('terms')} className="hover:text-crt-green transition-colors">Terms of Service</button>
+          </div>
           <p className="font-mono text-[10px] text-crt-muted tracking-wider">
             QuriosNow v1.0.0 ─ No backend. No tracking. 100% browser-native.
           </p>

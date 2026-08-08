@@ -39,9 +39,9 @@ export function Navbar() {
         {/* Logo */}
         <div
           className="flex items-center gap-2 cursor-pointer select-none"
-          onClick={currentView === 'table' ? handleBackToLanding : undefined}
+          onClick={currentView === 'table' || currentView === 'rag' ? handleBackToLanding : undefined}
         >
-          {currentView === 'table' && (
+          {(currentView === 'table' || currentView === 'rag') && (
             <VscArrowLeft className="text-[var(--crt-muted)] hover:text-[var(--crt-green)] transition-colors mr-1" size={16} />
           )}
           <img src="/icon.png" alt="QuriosNow Logo" className="w-7 h-7 rounded" />
@@ -49,6 +49,18 @@ export function Navbar() {
             QuriosNow
           </span>
         </div>
+
+        {/* Mode Indicator */}
+        {currentView === 'table' && (
+          <div className="hidden md:flex items-center text-[10px] font-mono text-crt-amber ml-4 border border-crt-amber/30 px-2 py-1">
+            [▦ TABLE MODE]
+          </div>
+        )}
+        {currentView === 'rag' && (
+          <div className="hidden md:flex items-center text-[10px] font-mono text-crt-amber ml-4 border border-crt-amber/30 px-2 py-1">
+            [{'>_'} DOCUMENT MODE]
+          </div>
+        )}
 
         {/* Spacer */}
         <div className="flex-1" />
@@ -87,7 +99,7 @@ export function Navbar() {
         <input
           ref={fileInputRef}
           type="file"
-          accept=".csv,.xlsx,.xls"
+          accept=".csv,.xlsx,.xls,.txt,.md,.pdf,.docx,.pptx,.py,.js,.ts,.java,.c,.cpp,.go,.rs,.sh,.sql,.json,.yaml,.yml,.toml,.html,.css,.log"
           onChange={onFileInputChange}
           className="hidden"
           id="navbar-file-input"

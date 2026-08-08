@@ -75,7 +75,7 @@ export interface Notification {
 }
 
 /** App view states */
-export type AppView = 'landing' | 'table' | 'docs';
+export type AppView = 'landing' | 'table' | 'docs' | 'rag' | 'privacy' | 'terms' | 'about';
 
 /** A recent file entry */
 export interface RecentFileEntry {
@@ -95,4 +95,7 @@ export type LoadingStage =
   | 'parsing'
   | 'detecting-types'
   | 'building-table'
+  | 'chunking'
+  | 'embedding'
+  | 'indexing'
   | 'ready';

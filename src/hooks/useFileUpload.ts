@@ -6,6 +6,9 @@ import { useAppStore } from '@/store/useAppStore';
 import type { LoadingStage } from '@/types';
 import { uid } from '@/lib/utils';
 import { saveDatasetToDB, loadDatasetFromDB } from '@/utils/db';
+import { FileTypeDetector } from '@/services/FileTypeDetector';
+import { RAGService } from '@/services/rag/RAGService';
+import { TextExtractor } from '@/services/rag/TextExtractor';
 
 /* ============================================================
    useFileUpload — Drag & Drop + File Input Hook
@@ -26,17 +29,44 @@ export function useFileUpload() {
 
   const processFile = useCallback(
     async (file: File, fileHandle?: any) => {
-      // Validate
       setLoadingStage('validating');
-      setLoading(true, 'Validating file...');
-      const validation = validateFile(file);
-      if (!validation.valid) {
-        addNotification('error', validation.error!);
+      setLoading(true, 'Detecting file type...');
+      
+      const detection = FileTypeDetector.detect(file);
+      
+      if (detection.mode === 'unsupported') {
+        addNotification('error', `Unsupported format: ${detection.type}`);
         setLoading(false);
         setLoadingStage('idle');
         return;
       }
+      
+      await delay(500); // Artificial delay to show detection
 
+      if (detection.mode === 'rag') {
+        try {
+          setLoading(true, `Extracting text from ${detection.type.toUpperCase()}...`);
+          const text = await TextExtractor.extract(file, detection.type);
+          if (!text.trim()) {
+            addNotification('error', 'Could not extract any text from this file.');
+            setLoading(false);
+            setLoadingStage('idle');
+            return;
+          }
+          setView('rag');
+          setLoading(false);
+          setLoadingStage('idle');
+          await RAGService.processDocument(file, text);
+        } catch (err) {
+          const message = err instanceof Error ? err.message : 'Failed to read document.';
+          addNotification('error', message);
+          setLoading(false);
+          setLoadingStage('idle');
+        }
+        return;
+      }
+
+      // TABLE MODE
       try {
         // Parse
         setLoadingStage('initializing');
@@ -175,11 +205,16 @@ export function useFileUpload() {
         const [handle] = await (window as any).showOpenFilePicker({
           types: [
             {
-              description: 'Spreadsheets & CSV',
+              description: 'Spreadsheets, Documents & Code',
               accept: {
                 'text/csv': ['.csv'],
                 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'],
                 'application/vnd.ms-excel': ['.xls'],
+                'text/plain': ['.txt', '.log', '.py', '.js', '.ts', '.java', '.c', '.cpp', '.go', '.rs', '.sh', '.sql', '.json', '.yaml', '.yml', '.toml', '.ini', '.cfg'],
+                'text/markdown': ['.md'],
+                'application/pdf': ['.pdf'],
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'],
+                'application/vnd.openxmlformats-officedocument.presentationml.presentation': ['.pptx'],
               },
             },
           ],
