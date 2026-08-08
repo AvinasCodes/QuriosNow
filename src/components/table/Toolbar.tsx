@@ -17,6 +17,7 @@ import {
   VscScreenFull,
   VscScreenNormal,
   VscSave,
+  VscComment,
 } from 'react-icons/vsc';
 
 /* ============================================================
@@ -44,6 +45,8 @@ export function Toolbar({
   const redoStack = useDataStore((s) => s.redoStack);
   const togglePanel = useAppStore((s) => s.togglePanel);
   const isPanelOpen = useAppStore((s) => s.isPanelOpen);
+  const isChatOpen = useAppStore((s) => s.isChatOpen);
+  const toggleChat = useAppStore((s) => s.toggleChat);
   const addNotification = useAppStore((s) => s.addNotification);
   const addRecentFile = useAppStore((s) => s.addRecentFile);
 
@@ -217,6 +220,17 @@ export function Toolbar({
           <span className="hidden xl:inline">Info</span>
         </RetroButton>
       )}
+
+      {/* Chat Toggle */}
+      <RetroButton
+        variant="ghost"
+        size="sm"
+        icon={<VscComment size={13} />}
+        onClick={toggleChat}
+        title={isChatOpen ? 'Hide Table Chat' : 'Chat with Table'}
+      >
+        <span className="hidden xl:inline">Chat</span>
+      </RetroButton>
 
       {/* Maximize Toggle */}
       {toggleMaximize && (

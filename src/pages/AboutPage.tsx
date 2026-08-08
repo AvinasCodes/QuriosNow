@@ -1,8 +1,20 @@
 import React from 'react';
+import { useAppStore } from '@/store/useAppStore';
+import { VscArrowLeft } from 'react-icons/vsc';
 
 export function AboutPage() {
+  const setView = useAppStore((s) => s.setView);
+
   return (
-    <div className="min-h-screen bg-[#0B0F0C] text-[#E0E0E0] p-8 font-mono">
+    <div className="min-h-screen bg-[#0B0F0C] text-[#E0E0E0] p-8 font-mono relative">
+      <button 
+        onClick={() => setView('landing')} 
+        className="absolute top-8 left-8 flex items-center gap-2 text-crt-muted hover:text-crt-green transition-colors"
+      >
+        <VscArrowLeft size={16} />
+        <span>Back</span>
+      </button>
+
       <div className="max-w-3xl mx-auto mt-12 bg-[#121814] p-8 border border-[#1A231C] rounded-lg shadow-lg">
         <h1 className="text-3xl font-bold mb-6 text-[#4ADE80]">About QuriosNow</h1>
         

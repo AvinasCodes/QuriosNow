@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { useFileUpload } from '@/hooks/useFileUpload';
 import { RetroWindow } from '@/components/ui/RetroWindow';
 import { RetroButton } from '@/components/ui/RetroButton';
-import { VscCloudUpload, VscFile } from 'react-icons/vsc';
+import { VscCloudUpload, VscFile, VscDatabase } from 'react-icons/vsc';
 import { cn } from '@/lib/utils';
 
 /* ============================================================
@@ -69,25 +69,42 @@ export function UploadZone() {
               or click to browse files
             </p>
 
-            {/* Upload button */}
-            <RetroButton
-              variant="filled-green"
-              icon={<VscCloudUpload size={14} />}
-              onClick={async (e) => {
-                e.stopPropagation();
-                const handled = await openFilePicker();
-                if (!handled) fileInputRef.current?.click();
-              }}
-            >
-              Select File
-            </RetroButton>
+            {/* Action buttons */}
+            <div className="flex items-center justify-center gap-4">
+              <RetroButton
+                variant="filled-green"
+                icon={<VscCloudUpload size={14} />}
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  const handled = await openFilePicker();
+                  if (!handled) fileInputRef.current?.click();
+                }}
+              >
+                Select File
+              </RetroButton>
+
+              <RetroButton
+                variant="amber"
+                icon={<VscDatabase size={14} />}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  alert('SQL Chat features coming soon!');
+                }}
+              >
+                SQL Chat
+              </RetroButton>
+            </div>
 
             {/* Supported formats */}
-            <div className="mt-6 flex items-center justify-center gap-3 font-mono text-[10px] text-crt-muted">
-              <span className="px-2 py-0.5 border border-[var(--crt-border)] rounded">.CSV</span>
-              <span className="px-2 py-0.5 border border-[var(--crt-border)] rounded">.XLSX</span>
-              <span className="px-2 py-0.5 border border-[var(--crt-border)] rounded">.XLS</span>
-              <span className="text-crt-muted">Max 100MB</span>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-2 font-mono text-[10px] text-crt-muted max-w-[80%] mx-auto">
+              <span className="px-2 py-0.5 border border-[var(--crt-border)] rounded text-crt-amber/80">.CSV</span>
+              <span className="px-2 py-0.5 border border-[var(--crt-border)] rounded text-crt-amber/80">.XLSX</span>
+              <span className="px-2 py-0.5 border border-[var(--crt-border)] rounded text-crt-green/80">.PDF</span>
+              <span className="px-2 py-0.5 border border-[var(--crt-border)] rounded text-crt-green/80">.DOCX</span>
+              <span className="px-2 py-0.5 border border-[var(--crt-border)] rounded text-crt-green/80">.PPTX</span>
+              <span className="px-2 py-0.5 border border-[var(--crt-border)] rounded text-crt-green/80">.TXT</span>
+              <span className="px-2 py-0.5 border border-[var(--crt-border)] rounded text-crt-green/80">.MD</span>
+              <span className="text-crt-muted ml-2">Max 100MB</span>
             </div>
           </div>
 
@@ -95,7 +112,7 @@ export function UploadZone() {
           <input
             ref={fileInputRef}
             type="file"
-            accept=".csv,.xlsx,.xls"
+            accept=".csv,.xlsx,.xls,.pdf,.docx,.pptx,.txt,.md"
             onChange={onFileInputChange}
             className="hidden"
             id="upload-file-input"

@@ -13,6 +13,7 @@ import {
   VscFilter,
   VscTrash,
   VscCopy,
+  VscBook,
 } from 'react-icons/vsc';
 
 /* ============================================================
@@ -27,15 +28,38 @@ const sections = [
     content: [
       {
         subtitle: 'Upload Your Data',
-        text: 'Drag & drop any CSV, XLSX, or XLS file into the upload zone — or click "Select File" to browse. QuriosNow instantly parses your data right in the browser. No servers, no uploads to the cloud.',
+        text: 'Drag & drop any CSV, XLSX, PDF, DOCX, or TXT file into the upload zone — or click "Select File" to browse. QuriosNow automatically routes your file to the correct workspace. No servers, no uploads to the cloud.',
       },
       {
         subtitle: 'Supported Formats',
-        text: 'CSV (comma-separated), XLSX (Excel 2007+), and XLS (legacy Excel). Files are parsed entirely client-side using PapaParse and SheetJS.',
+        text: 'Table Workspace: CSV, XLSX, XLS. Document Workspace (AI): PDF, DOCX, PPTX, TXT, MD. All parsed entirely client-side.',
       },
       {
         subtitle: 'Recent Files',
         text: 'Your previously opened files appear in the "Recent Files" section on the landing page. Click any entry to reload it instantly from the browser cache.',
+      },
+    ],
+  },
+  {
+    id: 'document-mode',
+    title: '> DOCUMENT MODE (AI RAG)',
+    icon: <VscBook size={20} />,
+    content: [
+      {
+        subtitle: '100% Local AI',
+        text: 'When you open a document (PDF, DOCX, etc.), QuriosNow uses Transformers.js to generate AI embeddings directly in your browser using your device\'s GPU/CPU. Your sensitive documents never leave your machine.',
+      },
+      {
+        subtitle: 'Chat & Query',
+        text: 'Type questions into the chat panel to instantly search your document. The system uses a Hybrid Search (Vector Similarity + Keyword Fallback) to guarantee accurate results.',
+      },
+      {
+        subtitle: 'Smart Extraction',
+        text: 'Instead of just returning raw chunks of text, the local AI extracts the exact sentences containing your answer based on your question type (who, what, where, when, why).',
+      },
+      {
+        subtitle: 'Citations',
+        text: 'Every AI response includes exact citations and similarity scores, so you can trust the output and trace it back to the source text.',
       },
     ],
   },
@@ -46,7 +70,7 @@ const sections = [
     content: [
       {
         subtitle: 'Viewing Data',
-        text: 'Your dataset loads in a high-performance AG Grid table with virtual scrolling — so even 100K+ rows feel instant. Columns are auto-sized and typed (String, Integer, Float, Boolean, Date, etc.).',
+        text: 'Spreadsheets load in a high-performance AG Grid table with virtual scrolling — so even 100K+ rows feel instant. Columns are auto-sized and typed (String, Integer, Float, Boolean, Date, etc.).',
       },
       {
         subtitle: 'Sorting & Filtering',
@@ -83,7 +107,7 @@ const sections = [
   },
   {
     id: 'search-filter',
-    title: '> SEARCH & FILTER',
+    title: '> SEARCH & FILTER (TABLE)',
     icon: <VscSearch size={20} />,
     content: [
       {

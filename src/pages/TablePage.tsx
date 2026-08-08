@@ -3,6 +3,7 @@ import { DataTable } from '@/components/table/DataTable';
 import { InfoPanel } from '@/components/table/InfoPanel';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 import { useDataStore } from '@/store/useDataStore';
+import { useAppStore } from '@/store/useAppStore';
 import { motion } from 'framer-motion';
 import { useState, useRef, useEffect } from 'react';
 
@@ -12,6 +13,7 @@ import { useState, useRef, useEffect } from 'react';
 
 export function TablePage() {
   const dataset = useDataStore((s) => s.dataset);
+  const isChatOpen = useAppStore((s) => s.isChatOpen);
   const [isMaximized, setIsMaximized] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -99,6 +101,18 @@ export function TablePage() {
         <div className="flex-1 min-w-0">
           <DataTable />
         </div>
+
+        {/* Chat Panel (Placeholder) */}
+        {isChatOpen && (
+          <div className="w-[300px] border border-[var(--crt-border)] bg-[var(--crt-secondary)] rounded flex flex-col">
+            <div className="p-2 border-b border-[var(--crt-border)] font-bold text-crt-green">
+              Table Chat (Coming Soon)
+            </div>
+            <div className="flex-1 p-4 text-xs text-crt-muted font-mono text-center flex items-center justify-center">
+              LLM Table Query integration is under development.
+            </div>
+          </div>
+        )}
 
         {/* Info Panel — visible on desktop, hidden on small screens */}
         <div className="info-panel-wrapper">

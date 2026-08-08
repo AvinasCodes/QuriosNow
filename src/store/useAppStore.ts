@@ -11,6 +11,8 @@ interface AppState {
   currentView: AppView;
   /** Info panel open */
   isPanelOpen: boolean;
+  /** Chat panel open (table mode) */
+  isChatOpen: boolean;
   /** Active notifications */
   notifications: Notification[];
   /** Recent files (persisted via localStorage) */
@@ -21,6 +23,8 @@ interface AppState {
   setView: (view: AppView) => void;
   togglePanel: () => void;
   setPanelOpen: (open: boolean) => void;
+  toggleChat: () => void;
+  setChatOpen: (open: boolean) => void;
   addNotification: (type: Notification['type'], message: string) => void;
   removeNotification: (id: string) => void;
   addRecentFile: (entry: RecentFileEntry) => void;
@@ -51,6 +55,7 @@ function saveToStorage(files: RecentFileEntry[]) {
 export const useAppStore = create<AppState>((set, get) => ({
   currentView: 'landing',
   isPanelOpen: true,
+  isChatOpen: false,
   notifications: [],
   recentFiles: loadFromStorage(),
 
@@ -59,6 +64,10 @@ export const useAppStore = create<AppState>((set, get) => ({
   togglePanel: () => set((s) => ({ isPanelOpen: !s.isPanelOpen })),
 
   setPanelOpen: (isPanelOpen) => set({ isPanelOpen }),
+
+  toggleChat: () => set((s) => ({ isChatOpen: !s.isChatOpen })),
+
+  setChatOpen: (isChatOpen) => set({ isChatOpen }),
 
   addNotification: (type, message) => {
     const notification: Notification = {

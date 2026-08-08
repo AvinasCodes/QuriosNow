@@ -179,11 +179,11 @@ export function ChatPanel() {
             className="flex flex-col items-center pt-6"
           >
             {/* ASCII Art */}
-            <pre className="text-[var(--crt-green)]/20 text-[8px] leading-tight font-mono mb-4 hidden sm:block">
-{`  ╔══════════════════════════╗
-  ║   DOCUMENT INTELLIGENCE  ║
-  ║      READY TO QUERY      ║
-  ╚══════════════════════════╝`}
+            <pre className="font-mono text-[10px] leading-none text-crt-green glow-green whitespace-pre text-center mb-4 hidden sm:block">
+{`  ══════════════════════════
+     DOCUMENT INTELLIGENCE  
+        READY TO QUERY      
+  ══════════════════════════`}
             </pre>
 
             <p className="text-[var(--crt-muted)] text-xs font-mono mb-5 text-center">
